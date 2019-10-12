@@ -20,6 +20,9 @@ class Code(models.Model):
 class Activity(models.Model):
     atvcode = models.TextField(primary_key=True)
     name = models.TextField()
+    date = models.DateTimeField()
+    status = models.BooleanField()
+    place = models.TextField()
 
     def __str__(self):
         return self.name

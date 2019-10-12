@@ -30,8 +30,14 @@
     <p class="lead text-muted">สร้างโค้ดลงฐานข้อมูล</p>
     <form action="{%url 'create_code'%}" method="post" id="code-form" class="row  justify-content-center">
       <div class="mt-3 col-8">
-        <label for="atvcode">รหัสกิจกรรม</label>
-        <input type="text" class="form-control" name="atvcode">
+        <label for="atvcode">กิจกรรม</label>
+        <!-- <input type="text" class="form-control" name="atvcode"> -->
+        <select name="atvcode">
+          {%for data in datas %}
+          <option value="{{data.atvcode}}">{{data.name}}</option>
+          {%endfor%}
+
+        </select>
       </div>
       <div class="mt-3 col-8">
         <label for="prefix">คำนำหน้า</label>
@@ -65,13 +71,22 @@
   <section name="activity" class=" p-5 m-0">
     <p class="lead text-muted">สร้างกิจกรรมลงฐานข้อมูล</p>
     <form action="{%url 'create_activity'%}" method="post" id="activity-form" class="row  justify-content-center">
-      <div class="mt-3 col-8">
+      <div class="mt-3 col-4">
         <label for="atvcode">รหัสกิจกรรม</label>
         <input type="text" class="form-control" name="atvcode">
       </div>
-      <div class="mt-3 col-8">
+      <div class="mt-3 col-4">
         <label for="name">ชื่อกิจกรรม</label>
         <input type="text" class="form-control" name="name">
+      </div>
+      <div class="w-100"></div>
+      <div class="mt-3 col-4">
+        <label for="place">สถานที่จัด</label>
+        <input type="text" class="form-control" name="place">
+      </div>
+      <div class="mt-3 col-4">
+        <label for="date">วันเวลาที่จัด</label>
+        <input type="datetime-local" class="form-control" name="date">
       </div>
       <div class="mt-3 col-8">
         <input type="submit" value="SUBMIT!">

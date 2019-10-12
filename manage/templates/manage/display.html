@@ -26,34 +26,43 @@
             </div>
         </div>
     </nav>
+    <div class="custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input" id="customSwitch1">
+        <label class="custom-control-label" for="customSwitch1"></label>
+    </div>
     <section name="table">
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
+                    <th scope="col">อันดับ</th>
+                    <th scope="col">ชื่อกิจกรรม</th>
+                    <th scope="col">กำหนดการ</th>
+                    <th scope="col">สถานที่</th>
+                    <th scope="col">จำนวน</th>
+                    <th scope="col">สถานะ</th>
                 </tr>
             </thead>
             <tbody>
+                {%for data in datas %}
                 <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
+                    <th scope="row">{{ forloop.counter }} </th>
+                    <td>{{data.name}}</td>
+                    <td>{{data.date}}</td>
+                    <td>{{data.place}}</td>
+                    <td>{{data.code_set.count}}</td>
+                    <!-- <td>{{data.status}}</td> -->
+                    <td>
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" {%if data.status %} checked {% endif %}
+                                id="switch-{{forloop.counter }}" onchange=" onStatusChange(this)"
+                                data-atvcode="{{data.atvcode}}">
+                            <label class="custom-control-label" for="switch-{{forloop.counter }}"></label>
+                        </div>
+                    </td>
+
                 </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td colspan="2">Larry the Bird</td>
-                    <td>@twitter</td>
-                </tr>
+                {%endfor%}
+
             </tbody>
         </table>
     </section>
@@ -67,6 +76,12 @@
     </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+    <script>
+        function onStatusChange(e) {
+            console.log($(e).data('atvcode'));
+
+        }
     </script>
 </body>
 

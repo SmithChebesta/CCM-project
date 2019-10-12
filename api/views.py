@@ -13,7 +13,7 @@ def create_code(req):
             req.POST.get('length')), req.POST.get('prefix'))
 
         for code in code_list:
-            Code = models.Code(exp=datetime.datetime.now(), point=float(req.POST.get('point')), used=False,
+            Code = models.Code(exp=req.POST.get('exp'), point=float(req.POST.get('point')), used=False,
                                code=code)
 
             Code.atvcode = get_object_or_404(
@@ -29,7 +29,7 @@ def create_activity(req):
     if req.method == 'POST':
 
         Activity = models.Activity(
-            atvcode=req.POST.get('atvcode'), name=req.POST.get('name'))
+            atvcode=req.POST.get('atvcode'), name=req.POST.get('name'), date=req.POST.get('date'), status=True, place=req.POST.get('place'))
         Activity.save()
 
         return HttpResponse(status=200)

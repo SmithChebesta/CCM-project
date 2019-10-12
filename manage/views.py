@@ -1,13 +1,15 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_list_or_404
 from api import models
 
 # Create your views here.
 
 
 def create(req):
-    return render(req, 'manage/create.html')
+    activity_data = get_list_or_404(models.Activity)
+    return render(req, 'manage/create.html', {'datas': activity_data})
 
 
 def display(req):
+    activity_data = get_list_or_404(models.Activity)
 
-    return render(req, 'manage/display.html')
+    return render(req, 'manage/display.html', {'datas': activity_data})
