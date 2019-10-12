@@ -26,7 +26,8 @@ class Migration(migrations.Migration):
                 ('point', models.FloatField()),
                 ('used', models.BooleanField()),
                 ('code', models.TextField(primary_key=True, serialize=False)),
-                ('atvcode', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api_code.Activity')),
+                ('atvcode', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to='api.Activity')),
             ],
         ),
     ]
