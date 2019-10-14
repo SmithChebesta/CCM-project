@@ -33,3 +33,13 @@ def create_activity(req):
         Activity.save()
 
         return HttpResponse(status=200)
+
+
+@csrf_exempt
+def sign_up(req):
+    if req.method == 'POST':
+        # Activity = models.Activity(
+        #     atvcode=req.POST.get('atvcode'), name=req.POST.get('name'), date=req.POST.get('date'), status=True, place=req.POST.get('place'))
+        # Activity.save()
+
+        return JsonResponse({'student_id': req.POST['student_id'], 'name': req.POST['name'], 'faculty': req.POST['faculty']})

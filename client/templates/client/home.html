@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <h1>sign up</h1>
+    <pre id="signup-response"></pre>
+    <form id="signup" action="{%url 'signup'%}" method="POST">
+        <label for="student_id">student_id</label>
+        <input type="text" name="student_id">
+        <br>
+        <label for="name">name</label>
+        <input type="text" name="name">
+        <br>
+        <label for="faculty">faculty</label>
+        <input type="text" name="faculty">
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+    <hr>
+    <h1>sign in</h1>
+</body>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+    const signup_form = $('#signup')
+
+
+    signup_form.on('submit', (e) => {
+        e.preventDefault()
+        $.post(signup_form.attr('action'), signup_form.serialize(), (response) => {
+            $('#signup-response').text(response)
+            console.log(response);
+
+        })
+
+    })
+</script>
+
+</html>
