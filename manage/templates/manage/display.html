@@ -5,27 +5,41 @@
     <title>Bootstrap Example</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+
 </head>
 
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav ml-auto">
-                <a class="nav-item nav-link active" href="{% url 'create'%}">Create </a>
-                <a class="nav-item nav-link" href="{% url 'display'%}">Display</a>
-                <a class="nav-item nav-link" href="#">Messages</a>
-                <a class="nav-item nav-link" href="#">Settings</a>
-
-            </div>
+    <nav class="nav-wraper red">
+        <div class="container">
+            <a href="#" class="brand-lo">College Club Manager</a>
+            <a href="#" class="sidenav-trigger" data-target="mobile-links">
+                <i class="material-icons">menu</i>
+            </a>
+            <ul class="right hide-on-med-and-down">
+                <a href="#" data-target="sideNavi" class="sidenav-trigger"><input class="material-icons"></i></a>
+                <li class="tab">
+                    <a class="nav-item nav-link  navbar-center" href="{% url 'create'%}">สร้างโค้ด</a>
+                </li>
+                <li class="tab">
+                    <a class="nav-item nav-link active" href="{% url 'display'%}">เช็คสถานะโค้ด</a>
+                </li>
+                <li class="tab"><a class="nav-item nav-link" href="#">ข่าวสาร</a></li>
+                <li class="tab">
+                    <a class="nav-item nav-link" href="#">การตั้งค่า</a>
+                </li>
+            </ul>
         </div>
     </nav>
+
+    <ul class="sidenav" id="mobile-links">
+        <li><a href="{% url 'create'%}">สร้างโค้ด</a></li>
+        <li><a href="{% url 'display'%}">เช็คสถานะโค้ด</a></li>
+        <li><a href="#">ข่าวสาร</a></li>
+        <li><a href="#">การตั้งค่า</a></li>
+    </ul>
 
     <section name="table">
         <table class="table table-hover">

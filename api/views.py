@@ -33,7 +33,7 @@ def create_activity(req):
 
     if req.method == 'POST':
         Activity = models.Activity(
-            atvname=req.POST.get('atvname'), date=req.POST.get('date'), status=True, place=req.POST.get('place'))
+            atvname=req.POST.get('atvname'), date=req.POST.get('exp'), status=True, place=req.POST.get('place'))
         Activity.save()
 
         return HttpResponse(status=200)
