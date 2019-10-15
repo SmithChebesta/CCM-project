@@ -5,11 +5,16 @@ from api import models
 
 
 def create(req):
-    activity_data = get_list_or_404(models.Activity)
-    return render(req, 'manage/create.html', {'datas': activity_data})
+    try:
+        activity_data = get_list_or_404(models.Activity)
+        return render(req, 'manage/create.html', {'datas': activity_data})
+    except:
+        return render(req, 'manage/create.html', {'datas': ''})
 
 
 def display(req):
-    activity_data = get_list_or_404(models.Activity)
-
-    return render(req, 'manage/display.html', {'datas': activity_data})
+    try:
+        activity_data = get_list_or_404(models.Activity)
+        return render(req, 'manage/display.html', {'datas': activity_data})
+    except:
+        return render(req, 'manage/display.html', {'datas': ''})

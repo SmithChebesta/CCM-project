@@ -1,8 +1,13 @@
+from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse, HttpResponse
-from django.views.decorators.csrf import csrf_exempt
+
+from django.contrib.auth.models import User
+from django.contrib import auth
+from django.utils import timezone
 from . import code_generator
 from . import models
+from client import models as client_models
 import datetime
 
 
@@ -16,8 +21,8 @@ def create_code(req):
             Code = models.Code(exp=req.POST.get('exp'), point=float(req.POST.get('point')), used=False,
                                code=code)
 
-            Code.atvcode = get_object_or_404(
-                models.Activity, pk=req.POST.get('atvcode'))
+            Code.atvname = get_object_or_404(
+                models.Activity, pk=req.POST.get('atvname'))
             Code.save()
 
         return HttpResponse(status=200)
@@ -27,9 +32,8 @@ def create_code(req):
 def create_activity(req):
 
     if req.method == 'POST':
-
         Activity = models.Activity(
-            atvcode=req.POST.get('atvcode'), name=req.POST.get('name'), date=req.POST.get('date'), status=True, place=req.POST.get('place'))
+            atvname=req.POST.get('atvname'), date=req.POST.get('date'), status=True, place=req.POST.get('place'))
         Activity.save()
 
         return HttpResponse(status=200)
@@ -38,8 +42,58 @@ def create_activity(req):
 @csrf_exempt
 def sign_up(req):
     if req.method == 'POST':
-        # Activity = models.Activity(
-        #     atvcode=req.POST.get('atvcode'), name=req.POST.get('name'), date=req.POST.get('date'), status=True, place=req.POST.get('place'))
-        # Activity.save()
+        # check if user is already exist
+        try:
+            user = User.objects.get(username=req.POST['student_id'])
+            return JsonResponse({'error': 'User already exist'}, status=400)
+        except User.DoesNotExist:
+            #  register new user
+            user = User.objects.create_user(
+                username=req.POST['student_id'], first_name=req.POST['name'])
+            user_profile = client_models.UserProfile(
+                user=user, faculty=req.POST['faculty'])
+            user_profile.save()
+            auth.login(req, user)
+            return JsonResponse({'student_id': req.POST['student_id'], 'name': req.POST['name'], 'faculty': req.POST['faculty']}, status=200)
 
-        return JsonResponse({'student_id': req.POST['student_id'], 'name': req.POST['name'], 'faculty': req.POST['faculty']})
+
+@csrf_exempt
+def logout(req):
+    if req.method == 'POST':
+        auth.logout(req)
+        return HttpResponse(status=200)
+
+
+@csrf_exempt
+def login(req):
+    if req.method == 'POST':
+        try:
+            user = User.objects.get(username=req.POST['student_id'])
+            auth.login(req, user)
+            return JsonResponse({'name': user.get_username()}, status=200)
+        except:
+            return HttpResponse(status=400)
+
+
+@csrf_exempt
+def addcode(req):
+    if req.method == 'POST':
+        try:
+            code = models.Code.objects.get(pk=req.POST['code'])
+            if code.used:
+                return JsonResponse({'error': 'Code already used'}, status=400)
+            else:
+                code.used_at = timezone.datetime.now()
+                code.used_by = req.user
+                code.used = True
+                code.save()
+                return HttpResponse(status=200)
+        except:
+            return JsonResponse({'error': 'Wrong code'}, status=400)
+
+
+def user_used_code(req):
+    code_list = req.user.code_set.all()
+    json = {'data': list(code_list.values('point', 'used_at', 'atvname'))}
+
+    return JsonResponse(json, status=200)

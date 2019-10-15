@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+<style>
+    .column-left {
+        float: left;
+        width: 33.333%;
+        height: 100vh;
+        background-color: rgba(196, 57, 38);
+
+    }
+
+    .column-right {
+        float: right;
+        width: 33.333%;
+        height: 100vh;
+    }
+
+    .column-center {
+        display: inline-block;
+        width: 33.333%;
+        height: 100vh;
+    }
+
+    html,
+    body {
+        height: 100%;
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+
+<head>
+    <meta charset="utf-8">
+    <title>CCM ENgineering KKU</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+</head>
+
+<body>
+    <div id="data-holder" data-is_authenticated="{{user.is_authenticated}}" hidden></div>
+    <div class="row">
+        <div class="column-left col s4 " id="left-column">
+
+            <div class="container">
+                <div>
+                    <br /><br />
+                    <p style="color: wheat;font-size: 1.4rem;">Beautiful Logo <button id="home-btn">Home</button></p>
+                    <!-- <img src="images/logo5.png" alt="logo"> -->
+
+                    <div id="show-user-id" style="display: none;">
+                        <div>
+                            <form id="logout" action="{%url 'logout'%}" method="POST">
+                                {{user.username}}
+                                <input type="submit" value="logout">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <br /><br /><br /><br />
+
+                <div class="card white dareken-1 z-depth-5 hoverable">
+
+                    <div class="card-content grey-text">
+                        <section id="login-section" style="display: none;">
+
+                            <span class="card-title center-align black-text">เข้าสู่ระบบ</span>
+                            <form id="login" action="{%url 'login'%}" method="POST">
+                                <div class="input-field">
+                                    <i class="material-icons prefix">account_circle</i>
+                                    <input id="student_id" name="student_id" type="text" class="validate">
+                                    <label for="student_id">รหัสนักศึกษา</label>
+                                </div>
+                                <br />
+                                <div class="center-align">
+                                    <button type="submit" class="btn red waves-effect waves-light">Login
+                                        <i class="material-icons right">send</i></button>
+                                </div>
+                                <br />
+                            </form>
+
+                            <div id="signUpBtn" class="center-align">
+                                <a href="#" class=" black-text" id="to-register-btn">
+                                    ลงทะเบียนผู้ใช้ใหม่</a>
+                            </div>
+
+                        </section>
+                        <section id="options-section" style="display: none;">
+                            <div class="section">
+                                <span class="card-title center-align black-text">เลือกการทำรายการ</span>
+                            </div>
+                            <div class="section">
+                                <div class="center-align">
+                                    <button class="btn red waves-effect waves-light" id="to-addcode-btn">
+                                        กรอกรหัสกิจกรรม
+                                        <i class="material-icons right">send</i>
+                                    </button>
+                                </div>
+                            </div> <br />
+                            <div class="divider"></div>
+                            <br />
+                            <div class="section">
+                                <div class="center-align">
+                                    <button class="btn red waves-effect waves-light" id="to-display-atv-btn">
+                                        ตรวจสอบคะแนนกิจกรรม
+                                        <i class="material-icons right">send</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </section>
+                        <section id="addcode-section" style="display: none;">
+                            <span class="card-title center-align grey-darken-2-text">กรอกรหัสกิจกรรม</span>
+                            <form id="add-code" action="{%url 'addcode'%}" method="POST">
+                                <div class="input-field">
+                                    <i class="material-icons prefix grey-text">account_circle</i>
+                                    <input id="code" name="code" type="text" class="validate">
+                                    <label for="code">รหัสกิจกรรม</label>
+                                </div>
+
+                                <div class="center-align">
+                                    <button class="btn red waves-effect waves-light" type="submit">ยืนยัน
+                                        <i class="material-icons right">send</i></button>
+                                </div>
+                            </form>
+
+                        </section>
+                        <section id="register-section" style="display: none;">
+                            <span class="card-title center-align grey-darken-2-text">ลงทะเบียนผู้ใช้ใหม่</span>
+                            <form id="signup" action="{%url 'signup'%}" method="POST">
+                                <div class="input-field">
+                                    <i class="material-icons prefix grey-text">account_circle</i>
+                                    <input id="student_id" name="student_id" type="text" class="validate">
+                                    <label for="student_id">รหัสนักศึกษา</label>
+                                </div>
+
+                                <div class="input-field">
+                                    <i class="material-icons prefix grey-text">account_circle</i>
+                                    <input id="name" name="name" type="text" class="validate">
+                                    <label for="name">ชื่อสกุล</label>
+                                </div>
+
+                                <div class="input-field">
+                                    <i class="material-icons prefix grey-text">account_circle</i>
+                                    <input id="faculty" name="faculty" type="text" class="validate">
+                                    <label for="faculty">คณะ</label>
+                                </div>
+
+                                <div class="center-align">
+                                    <button class="btn red waves-effect waves-light" type="submit">Sign Up
+                                        <i class="material-icons right">send</i></button>
+                                </div>
+
+                            </form>
+
+                        </section>
+                        <section id="display-section" style="display: none;">
+                            <div class="striped">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th class="red-text center">วันที่ใช้</th>
+                                            <th class="red-text center">ชื่อกิจกรรม</th>
+                                            <th class="red-text center">คะแนน</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="display-table-body" data-url="{%url 'getcode'%}">
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </section>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container right-align">
+                <br /><br /><br /><br />
+                <a href="#" class="brand-logo white-text"><i class="material-icons">keyboard_arrow_right</i>
+                    ตารางสอบ</a><br />
+                <a href="#" class="brand-logo white-text "> <i class="material-icons">keyboard_arrow_right</i>
+                    ติดต่อเพิ่มเติม</a>
+            </div>
+        </div>
+
+
+        <div class="column-center col s4" id="center-column">
+            <div class="center align">
+                <h2 class="flow-text indigo-text">ปฎิทิน</h2>
+            </div>
+        </div>
+
+        <div class="column-right col s4" id="right-column">
+            <div class="center align">
+                <h2 class="flow-text indigo-text">ข่าวสาร</h2>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(() => {
+            const $login_form = $('#login')
+            const $signup_form = $('#signup')
+            const $logout_form = $('#logout')
+            const $add_code_form = $('#add-code')
+            const $display_table_body = $('#display-table-body')
+
+            const to_addcode_btn = $('#to-addcode-btn')
+            const to_register_btn = $('#to-register-btn')
+            const to_display_btn = $('#to-display-atv-btn')
+
+            const section_login = $('#login-section')
+            const section_options = $('#options-section')
+            const section_addcode = $('#addcode-section')
+            const section_register = $('#register-section')
+            const section_display = $('#display-section')
+
+            let is_authenticated = $('#data-holder').data('is_authenticated') == "True"
+            if (is_authenticated) {
+                section_options.show()
+                $("#show-user-id").show()
+            } else {
+                section_login.show()
+
+            }
+            $('#home-btn').on('click', () => {
+                if (is_authenticated) {
+                    section_login.hide()
+                    section_options.show()
+                    section_addcode.hide()
+                    section_register.hide()
+                    section_display.hide()
+
+                } else {
+                    section_login.show()
+                    section_options.hide()
+                    section_addcode.hide()
+                    section_register.hide()
+                    section_display.hide()
+                }
+            })
+            //login
+            $login_form.on('submit', (e) => {
+                e.preventDefault()
+                $.post($login_form.attr('action'), $login_form.serialize(), (response) => {
+                    section_login.hide()
+                    section_options.show()
+                    is_authenticated = true
+                    $("#show-user-id").children('p').text(response.name)
+                    $("#show-user-id").show()
+                }).fail(() => {
+                    is_authenticated = false
+                    M.toast({
+                        html: 'Error'
+                    })
+                });
+            })
+            //logout
+            $logout_form.on('submit', (e) => {
+                e.preventDefault()
+                $.post($logout_form.attr('action'))
+                $("#show-user-id").hide()
+                section_login.show()
+                section_options.hide()
+                section_addcode.hide()
+                is_authenticated = false
+            })
+            //sign up 
+            $signup_form.on('submit', (e) => {
+                e.preventDefault()
+                $.post($signup_form.attr('action'), $signup_form.serialize(), (response) => {
+                    section_login.hide()
+                    section_register.hide()
+                    section_options.show()
+                    is_authenticated = true
+                    $("#show-user-id").children('p').text(response.student_id)
+                    $("#show-user-id").show()
+                }).fail((response) => {
+
+                    M.toast({
+                        html: response.error
+                    })
+                })
+
+            })
+            //add code
+            $add_code_form.on('submit', (e) => {
+                e.preventDefault()
+                $.post($add_code_form.attr('action'), $add_code_form.serialize(), (response) => {
+                    alert('Success' + response)
+                }).fail((response) => {
+                    alert('Fail' + response)
+
+                })
+
+            })
+
+            //Change page
+            to_addcode_btn.on('click', () => {
+                section_options.hide()
+                section_addcode.show()
+            })
+            to_register_btn.on('click', () => {
+                section_login.hide()
+                section_register.show()
+            })
+            to_display_btn.on('click', () => {
+
+                $.getJSON($display_table_body.data('url'), (response) => {
+                    response.data.forEach(data => {
+                        $display_table_body.append($(`<tr>
+                            <td>${data.used_at}</td>
+                            <td>${data.atvname}</td>
+                            <td> ${data.point} </td>
+                            </tr>`))
+                    });
+                    section_options.hide()
+                    section_display.show()
+
+                }).fail((response) => {
+                    alert('Fail' + response)
+                    section_options.hide()
+                    section_display.show()
+                })
+
+            })
+        })
+    </script>
+
+</body>
+
+</html>
