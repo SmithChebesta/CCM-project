@@ -55,9 +55,11 @@
                     <!-- <img src="images/logo5.png" alt="logo"> -->
 
                     <div id="show-user-id" style="display: none;">
+                        <p>{{user.username}}</p>
                         <div>
                             <form id="logout" action="{%url 'logout'%}" method="POST">
-                                {{user.username}}
+
+
                                 <input type="submit" value="logout">
                             </form>
                         </div>
@@ -136,8 +138,8 @@
                             <form id="signup" action="{%url 'signup'%}" method="POST">
                                 <div class="input-field">
                                     <i class="material-icons prefix grey-text">account_circle</i>
-                                    <input id="student_id" name="student_id" type="text" class="validate">
-                                    <label for="student_id">รหัสนักศึกษา</label>
+                                    <input id="student-id" name="student_id" type="text" class="validate">
+                                    <label for="student-id">รหัสนักศึกษา</label>
                                 </div>
 
                                 <div class="input-field">
@@ -148,7 +150,10 @@
 
                                 <div class="input-field">
                                     <i class="material-icons prefix grey-text">account_circle</i>
-                                    <input id="faculty" name="faculty" type="text" class="validate">
+                                    <!-- <input id="faculty" name="faculty" type="text" class="validate"> -->
+                                    <select name="faculty" id="faculty">
+
+                                    </select>
                                     <label for="faculty">คณะ</label>
                                 </div>
 
@@ -206,8 +211,8 @@
 
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script>
         $(() => {
             const $login_form = $('#login')
@@ -227,6 +232,7 @@
             const section_display = $('#display-section')
 
             let is_authenticated = $('#data-holder').data('is_authenticated') == "True"
+            //init
             if (is_authenticated) {
                 section_options.show()
                 $("#show-user-id").show()
@@ -234,6 +240,24 @@
                 section_login.show()
 
             }
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                url: "https://cors-anywhere.herokuapp.com/https://www.kku.ac.th/ikku/api/academics/services/getFaculty.php?",
+                dataType: "json",
+                success: function(response) {
+                    console.log(response);
+                    response.results.forEach(data => {
+                        $('#faculty').append(
+                            `<option value="${data.name_th}">${data.name_th}</option>`)
+                    })
+                    $('select').formSelect();
+                }
+            });
+
+
             $('#home-btn').on('click', () => {
                 if (is_authenticated) {
                     section_login.hide()
@@ -257,6 +281,9 @@
                     section_login.hide()
                     section_options.show()
                     is_authenticated = true
+                    console.log(
+                        $("#show-user-id").children('p'));
+
                     $("#show-user-id").children('p').text(response.name)
                     $("#show-user-id").show()
                 }).fail(() => {
@@ -274,7 +301,10 @@
                 section_login.show()
                 section_options.hide()
                 section_addcode.hide()
+                section_display.hide()
+
                 is_authenticated = false
+
             })
             //sign up 
             $signup_form.on('submit', (e) => {
@@ -335,6 +365,7 @@
                 })
 
             })
+
         })
     </script>
 

@@ -10,7 +10,7 @@ from . import models
 from client import models as client_models
 import datetime
 
-
+ 
 @csrf_exempt
 def create_code(req):
     if req.method == 'POST':
