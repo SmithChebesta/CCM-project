@@ -23,7 +23,7 @@ class Code(models.Model):
 
 class Activity(models.Model):
     atvname = models.TextField(primary_key=True)
-    date = models.DateField()
+    date = models.DateTimeField(default=None, null=True)
     status = models.BooleanField()
     place = models.TextField()
 
