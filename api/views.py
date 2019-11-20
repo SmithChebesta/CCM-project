@@ -9,8 +9,9 @@ from . import code_generator
 from . import models
 from client import models as client_models
 import datetime
+import unicodecsv as csv
 
- 
+
 @csrf_exempt
 def create_code(req):
     if req.method == 'POST':
@@ -92,8 +93,53 @@ def addcode(req):
             return JsonResponse({'error': 'Wrong code'}, status=400)
 
 
+@csrf_exempt
 def user_used_code(req):
     code_list = req.user.code_set.all()
     json = {'data': list(code_list.values('point', 'used_at', 'atvname'))}
 
     return JsonResponse(json, status=200)
+
+
+@csrf_exempt
+def update_status_atv(req):
+    if req.method == 'POST':
+        atvname = req.POST.get('atvname')
+        atv = models.Activity.objects.get(pk=atvname)
+        atv.status = not atv.status
+        atv.save()
+        # return HttpResponse(models.Activity.objects.get(pk=atvname).status)
+        return JsonResponse({'status': models.Activity.objects.get(pk=atvname).status}, status=200)
+
+
+@csrf_exempt
+def get_csv(req):
+    if req.method == 'GET':
+        atvname = req.GET.get('atvname')
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="activity_summary.csv"'
+        writer = csv.writer(response, encoding='utf-8-sig')
+        writer.writerow(
+            ['ลำดับ', 'ชื่อกิจกรรม', 'รหัสผู้เข้าร่วม', 'วันที่กรอกรหัส'])
+        x = 1
+        for code in models.Code.objects.all():
+            if(str(code.atvname) == atvname and code.used):
+                writer.writerow([x, str(code.atvname), str(
+                    code.used_by), str(code.used_at.strftime("%m/%d/%Y, %H:%M:%S"))])
+                x += 1
+
+        return response
+        # return JsonResponse({'status': models.Activity.objects.get(pk=atvname).status}, status=200)
+
+
+# if request.POST:
+#     response = HttpResponse(content_type='text/csv')
+#     response['Content-Disposition'] = 'attachment; filename="Search Results.csv"'
+#     url = request.POST.get('url')
+#     search_request = requests.get(url, verify=False)
+#     search_results = search_request.json()
+#     writer = csv.writer(response)
+#     writer.writerow(['Tree ID', 'Species', 'DBH', 'Address', 'Latitude', 'Longitude'])
+#     for obj in search_results:
+#         writer.writerow([obj['treeid'], obj['qspecies'], obj['dbh'], obj['qaddress'], obj['latitude'], obj['longitude']])
+#     return response

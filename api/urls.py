@@ -10,4 +10,6 @@ urlpatterns = [
     path('user/login', views.login, name='login'),
     path('user/addcode', views.addcode, name='addcode'),
     path('user/getcode', views.user_used_code, name='getcode'),
+    path('user/update-atv-status', views.update_status_atv, name='updateatv'),
+    path('user/get-csv', views.get_csv, name='get-csv'),
 ]

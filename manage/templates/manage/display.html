@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
 
 </head>
@@ -26,10 +27,7 @@
                 <li class="tab">
                     <a class="nav-item nav-link active" href="{% url 'display'%}">เช็คสถานะโค้ด</a>
                 </li>
-                <li class="tab"><a class="nav-item nav-link" href="#">ข่าวสาร</a></li>
-                <li class="tab">
-                    <a class="nav-item nav-link" href="#">การตั้งค่า</a>
-                </li>
+
             </ul>
         </div>
     </nav>
@@ -37,11 +35,10 @@
     <ul class="sidenav" id="mobile-links">
         <li><a href="{% url 'create'%}">สร้างโค้ด</a></li>
         <li><a href="{% url 'display'%}">เช็คสถานะโค้ด</a></li>
-        <li><a href="#">ข่าวสาร</a></li>
-        <li><a href="#">การตั้งค่า</a></li>
-    </ul>
 
+    </ul>
     <section name="table">
+
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -51,26 +48,46 @@
                     <th scope="col">สถานที่</th>
                     <th scope="col">จำนวน</th>
                     <th scope="col">สถานะ</th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
+
                 {%for data in datas %}
+
                 <tr>
                     <th scope="row">{{ forloop.counter }} </th>
                     <td>{{data.atvname}}</td>
                     <td>{{data.date}}</td>
                     <td>{{data.place}}</td>
                     <td>{{data.code_set.count}}</td>
-                    <!-- <td>{{data.status}}</td> -->
                     <td>
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" {%if data.status %} checked {% endif %}
-                                id="switch-{{forloop.counter }}" onchange=" onStatusChange(this)"
-                                data-atvname="{{data.atvname}}">
-                            <label class="custom-control-label" for="switch-{{forloop.counter }}"></label>
+                        <div class="switch">
+                            <label>
+                                <input type="checkbox" onchange='onStatusChange("{{data.atvname}}")' {%if data.status %}
+                                    checked {% endif %}>
+                                <span class="lever"></span>
+                            </label>
                         </div>
                     </td>
+                    <td>
+                        <a href="#modal-{{ forloop.counter }} " class="modal-trigger">
+                            <i class="material-icons">get_app
+                            </i>
+                        </a>
+                        <div id="modal-{{ forloop.counter }} " class="modal"
+                            style="width: fit-content;height: fit-content;text-align: center;">
+                            <div style="padding: 24px;">
 
+                                <a target="_blank"
+                                    href="https://api.qrserver.com/v1/create-qr-code/?data=http://{{url}}/api/user/get-csv?atvname={{data.atvname}}&amp;size=300x300">QR
+                                    CODE</a>
+                                <a href="http://{{url}}/api/user/get-csv?atvname={{data.atvname}}"
+                                    style="display:block;">Download directly</a>
+
+                            </div>
+                        </div>
+                    </td>
                 </tr>
                 {%endfor%}
 
@@ -79,19 +96,38 @@
     </section>
 
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js">
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
-    </script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
     </script>
     <script>
-        function onStatusChange(e) {
+        $('.modal').modal();
+        $(".sidenav").sidenav();
+
+        function onStatusChange(atvname) {
             // TODO : Make an api to update database value
-            console.log($(e).data('atvname'));
+            $.ajax({
+                type: "POST",
+                url: `${window.location.origin}/api/user/update-atv-status`,
+                data: {
+                    'atvname': atvname
+                },
+                success: (data) => {
+                    M.toast({
+                        html: `Change "${atvname}" event status to ${data.status}`
+                    })
+                },
+                error: (error) => {
+                    M.toast({
+                        html: `error : ${error}`
+                    })
+                    // window.location = window.location
+
+                }
+            })
 
         }
     </script>
