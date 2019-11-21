@@ -113,6 +113,14 @@ def update_status_atv(req):
 
 
 @csrf_exempt
+def del_atv(req):
+    if req.method == 'POST':
+        atvname = req.POST.get('atvname')
+        atv = models.Activity.objects.get(pk=atvname)
+        atv.delete()
+        return JsonResponse({'delete': atvname}, status=200)
+
+@csrf_exempt
 def get_csv(req):
     if req.method == 'GET':
         atvname = req.GET.get('atvname')

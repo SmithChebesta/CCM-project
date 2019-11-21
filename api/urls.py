@@ -14,4 +14,7 @@ urlpatterns = [
     path('user/get-csv', views.get_csv, name='get-csv'),
     path('user/get-atvcode-csv', views.get_atvcode_csv, name='get-atvcode-csv'),
     path('user/get-atvcode', views.get_atvcode, name='get-atvcode'),
+    path('user/del-atv', views.del_atv, name='del-atv'),
+
+
 ]

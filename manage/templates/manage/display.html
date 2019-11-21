@@ -71,6 +71,11 @@
                         </div>
                     </td>
                     <td>
+                        <a href="#" onclick="deleteAtv('{{data.atvname}}')" data-action="{%url 'del-atv'%}"
+                            class="del-atv-btn">
+                            <i class="material-icons">delete</i>
+
+                        </a>
                         <a href="#modal-{{ forloop.counter }} " class="modal-trigger">
                             <i class="material-icons">get_app
                             </i>
@@ -113,6 +118,30 @@
     <script>
         $('.modal').modal();
         $(".sidenav").sidenav();
+
+        function deleteAtv(atvname) {
+            $.ajax({
+                type: "POST",
+                url: `${window.location.origin}${$('.del-atv-btn').data('action')}`,
+                data: {
+                    'atvname': atvname
+                },
+                success: (data) => {
+                    M.toast({
+                        html: `Delete "${atvname}"`
+                    })
+                },
+                error: (error) => {
+                    M.toast({
+                        html: `error : ${error.statusText}`
+                    })
+
+                    // window.location = window.location
+
+                }
+            })
+            window.location = window.location
+        }
 
         function onStatusChange(atvname) {
             // TODO : Make an api to update database value

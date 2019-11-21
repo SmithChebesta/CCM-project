@@ -247,7 +247,9 @@
         url: activity_form.attr('action'),
         data: activity_form.serialize(),
         success: (data) => {
-          alert('create activity : success')
+          M.toast({
+            html: "Success : create activity"
+          });
           window.location = window.location
 
         },
