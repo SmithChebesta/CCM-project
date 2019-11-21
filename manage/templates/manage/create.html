@@ -72,22 +72,22 @@
                 </div>
                 <div class="input-field">
                   <input type="number" class="form-control" name="amount" id="amount" />
-                  <label for="amount">จำนวนโค้ดที่จะสร้าง</label>
+                  <label for="amount">จำนวนโค้ดที่จะสร้าง<sup style="color: red;">*</sup></label>
                 </div>
 
                 <div class="input-field">
                   <input type="number" class="form-control" name="length" id="length" />
-                  <label for="length">ความยาวของโค้ด</label>
+                  <label for="length">ความยาวของโค้ด<sup style="color: red;">*</sup></label>
                 </div>
 
                 <div class="input-field">
                   <input type="number" step="0.01" class="form-control" name="point" id="point" />
-                  <label for="point">จำนวนหน่วยกิต</label>
+                  <label for="point">จำนวนหน่วยกิต<sup style="color: red;">*</sup></label>
                 </div>
 
                 <!-- <div class="input-field "> -->
                 <!-- <input type="text" class="datepicker" name="exp" id="exp" /> -->
-                <label for="exp">วันหมดอายุ</label>
+                <label for="exp">วันหมดอายุ<sup style="color: red;">*</sup></label>
                 <input type="date" name="exp" id="exp" />
 
                 <!-- </div> -->
@@ -113,17 +113,17 @@
                 class="row  justify-content-center">
 
                 <div class="input-field">
-                  <label for="atvname">ชื่อกิจกรรม</label>
+                  <label for="atvname">ชื่อกิจกรรม<sup style="color: red;">*</sup></label>
                   <input type="text" class="form-control" name="atvname" id="atvname" />
                 </div>
 
                 <div class="input-field">
-                  <label for="place">สถานที่จัด</label>
+                  <label for="place">สถานที่จัด<sup style="color: red;">*</sup></label>
                   <input type="text" class="form-control" name="place" id="place" />
                 </div>
 
                 <!-- <div class="input-field "> -->
-                <label for="exp">วันเวลาที่จัด</label>
+                <label for="exp">วันเวลาที่จัด<sup style="color: red;">*</sup></label>
                 <input type="datetime-local" name="exp" id="exp" />
                 <!-- </div> -->
 
@@ -225,16 +225,14 @@
         url: code_form.attr('action'),
         data: code_form.serialize(),
         success: (data) => {
-          window.location = window.location
           M.toast({
             html: "Success : create code"
           });
         },
         error: (error) => {
           M.toast({
-            html: `Error : something wrong ?`
+            html: `Error : Please check all information in the form`
           });
-          window.location = window.location
 
         }
       })
