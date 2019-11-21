@@ -225,7 +225,6 @@
         url: code_form.attr('action'),
         data: code_form.serialize(),
         success: (data) => {
-          alert('create code : success')
           window.location = window.location
           M.toast({
             html: "Success : create code"
@@ -233,7 +232,7 @@
         },
         error: (error) => {
           M.toast({
-            html: `Error : something wrong ? ${error}`
+            html: `Error : something wrong ?`
           });
           window.location = window.location
 
