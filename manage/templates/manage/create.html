@@ -227,9 +227,14 @@
         success: (data) => {
           alert('create code : success')
           window.location = window.location
+          M.toast({
+            html: "Success : create code"
+          });
         },
         error: (error) => {
-          alert('create code : error')
+          M.toast({
+            html: `Error : something wrong ? ${error}`
+          });
           window.location = window.location
 
         }
