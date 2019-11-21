@@ -78,14 +78,17 @@
                         <div id="modal-{{ forloop.counter }} " class="modal"
                             style="width: fit-content;height: fit-content;text-align: center;">
                             <div style="padding: 24px;">
-
+                                <h3>Participation</h3>
                                 <a target="_blank"
                                     href="https://api.qrserver.com/v1/create-qr-code/?data=http://{{url}}/api/user/get-csv?atvname={{data.atvname}}&amp;size=300x300">QR
-                                    CODE</a>
-                                <hr>
+                                    code</a>
                                 <a href="http://{{url}}/api/user/get-csv?atvname={{data.atvname}}"
                                     style="display:block;">Download directly</a>
                                 <p>Access directly at : http://{{url}}/api/user/get-csv?atvname={{data.atvname}} </p>
+                                <hr>
+                                <h3>Activity code </h3>
+                                <a href="http://{{url}}/api/user/get-atvcode?atvname={{data.atvname}}"
+                                    style="display:block;">Download code csv</a>
 
                             </div>
                         </div>
