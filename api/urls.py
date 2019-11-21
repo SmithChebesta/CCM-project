@@ -12,5 +12,6 @@ urlpatterns = [
     path('user/getcode', views.user_used_code, name='getcode'),
     path('user/update-atv-status', views.update_status_atv, name='updateatv'),
     path('user/get-csv', views.get_csv, name='get-csv'),
+    path('user/get-atvcode-csv', views.get_atvcode_csv, name='get-atvcode-csv'),
     path('user/get-atvcode', views.get_atvcode, name='get-atvcode'),
 ]

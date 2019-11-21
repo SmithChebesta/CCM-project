@@ -133,7 +133,7 @@ def get_csv(req):
 
 
 @csrf_exempt
-def get_atvcode(req):
+def get_atvcode_csv(req):
     if req.method == 'GET':
         atvname = req.GET.get('atvname')
         response = HttpResponse(content_type='text/csv')
@@ -149,3 +149,19 @@ def get_atvcode(req):
                 x += 1
 
         return response
+
+
+@csrf_exempt
+def get_atvcode(req):
+    if req.method == 'GET':
+        atvname = req.GET.get('atvname')
+        response = {'response':[]}
+        x = 1
+        for code in models.Code.objects.all():
+            
+            if(str(code.atvname) == atvname):
+                response['response'].append({'ลำดับ':x,'ชื่อกิจกรรม' :str(code.atvname), 'รหัสกิจกรรม':str(
+                    code.code), 'สถานะ': str(code.used)})
+                x += 1
+
+        return JsonResponse(response)
